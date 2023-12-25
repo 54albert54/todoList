@@ -1,0 +1,9 @@
+.TodoHeader{
+  background: linear-gradient(45deg ,#234b6ad9,#37afff);
+  width: 100%;
+  height: auto;
+  padding-bottom: 4rem;
+  border-radius: 0 0 22px 22px;
+  box-shadow: 1px 2px 12px 2px #00000085;
+
+}
