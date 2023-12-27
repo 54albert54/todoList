@@ -1,23 +1,21 @@
+import useTodos from "./useTodos";
+import TodoHeader from "../TodoHeader";
+import TodoCounter from "../TodoCounter";
+import TodoSearch from "../TodoSearch";
+import TodoList from "../TodoList";
+import TodoItem from "../TodoItem";
+import TodosError from "../TodosError";
+import TodosLoading from "../TodosLoading";
+import EmptyTodos from "../EmptyTodos";
 
-import  useTodos  from './useTodos';
-import  TodoHeader  from '../TodoHeader';
-import  TodoCounter  from '../TodoCounter';
-import  TodoSearch  from '../TodoSearch';
-import  TodoList  from '../TodoList';
-import  TodoItem  from '../TodoItem';
-import  TodosError  from '../TodosError';
-import  TodosLoading  from '../TodosLoading';
-import  EmptyTodos  from '../EmptyTodos';
+import CreateTodoButton from "../CreateTodoButton";
 
-import  CreateTodoButton  from '../CreateTodoButton';
+import ChangeAlert from "../ChangeAlert";
+import { useNavigate } from "react-router-dom";
 
-import  ChangeAlert  from '../ChangeAlert';
-import {  useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 export default function App() {
-  const [trendingMovies , setTrendingMovies] = useState(undefined)
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     error,
     loading,
@@ -31,48 +29,21 @@ export default function App() {
     sincronizeTodos,
   } = useTodos();
 
-  
-  const goToAddTodo = ()=>{
-    navigate('addtodo')
-  }
+  const goToAddTodo = () => {
+    navigate("addtodo");
+  };
 
-  const editTodo =(id)=>{    
-    navigate(`/editodo/${id}`,
-    {
-      state:{ todo:searchedTodos}
-    })
-  }
-  const BASE_URL = 'https://api.themoviedb.org/3/';
-  const API_KEY =  'bdaaaa2b20c386f0be9d20b50bd8dbe3';
-  useEffect(() => {
-    const getTrendingMovies = async () => {
-        try{
-            const endpoint = 'trending/movie/day'
-            const res = await fetch(BASE_URL + endpoint + '?api_key=' + API_KEY)
-            const data = await res.json()
-            const movies = data.results;
-            setTrendingMovies(movies)
-            console.log('TrendingMovies',movies[0]);
-            
-        } catch(error) {console.log(error)}
-    }
-    getTrendingMovies()
-        .catch(console.error)
-},[]);
+  const editTodo = (id) => {
+    navigate(`/editodo/${id}`, {
+      state: { todo: searchedTodos },
+    });
+  };
 
-
-  
   return (
-    <section className='todoLayout'>
+    <section className="todoLayout">
       <TodoHeader loading={loading}>
-        <TodoCounter
-          totalTodos={totalTodos}
-          completedTodos={completedTodos}
-        />
-        <TodoSearch
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-        />
+        <TodoCounter totalTodos={totalTodos} completedTodos={completedTodos} />
+        <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
       </TodoHeader>
 
       <TodoList
@@ -84,11 +55,15 @@ export default function App() {
         onError={() => <TodosError />}
         onLoading={() => <TodosLoading />}
         onEmptyTodos={() => <EmptyTodos />}
-        onEmptySearchResults={
-          (searchText) =><div className='missingReturn'> <p className='missingReturn--text' >No hay resultados para: </p> <p className='missingReturn--err'>{searchText}</p></div>
-        }
+        onEmptySearchResults={(searchText) => (
+          <div className="missingReturn">
+            {" "}
+            <p className="missingReturn--text">No hay resultados para: </p>{" "}
+            <p className="missingReturn--err">{searchText}</p>
+          </div>
+        )}
       >
-        {todo => (
+        {(todo) => (
           <TodoItem
             key={todo?.id}
             id={todo?.id}
@@ -101,15 +76,9 @@ export default function App() {
         )}
       </TodoList>
 
-      <CreateTodoButton
-        setOpenModal={goToAddTodo}
-      /> 
+      <CreateTodoButton setOpenModal={goToAddTodo} />
 
-      <ChangeAlert
-        sincronize={sincronizeTodos}
-      />
+      <ChangeAlert sincronize={sincronizeTodos} />
     </section>
   );
 }
-
-
