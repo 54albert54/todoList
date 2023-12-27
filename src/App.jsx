@@ -13,6 +13,7 @@ function App() {
    <>
     <HashRouter>
   {/* navbar */}
+  {/* create a new feature  */}
       <Routes>
         <Route path='/' element={<MainApp/>}/>
         <Route path='/addtodo' element={<AddTodo/>}/>

@@ -13,8 +13,10 @@ import  CreateTodoButton  from '../CreateTodoButton';
 
 import  ChangeAlert  from '../ChangeAlert';
 import {  useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export default function App() {
+  const [trendingMovies , setTrendingMovies] = useState(undefined)
   const navigate = useNavigate()
   const {
     error,
@@ -29,6 +31,7 @@ export default function App() {
     sincronizeTodos,
   } = useTodos();
 
+  
   const goToAddTodo = ()=>{
     navigate('addtodo')
   }
@@ -39,6 +42,23 @@ export default function App() {
       state:{ todo:searchedTodos}
     })
   }
+  const BASE_URL = 'https://api.themoviedb.org/3/';
+  const API_KEY =  'bdaaaa2b20c386f0be9d20b50bd8dbe3';
+  useEffect(() => {
+    const getTrendingMovies = async () => {
+        try{
+            const endpoint = 'trending/movie/day'
+            const res = await fetch(BASE_URL + endpoint + '?api_key=' + API_KEY)
+            const data = await res.json()
+            const movies = data.results;
+            setTrendingMovies(movies)
+            console.log('TrendingMovies',movies[0]);
+            
+        } catch(error) {console.log(error)}
+    }
+    getTrendingMovies()
+        .catch(console.error)
+},[]);
 
 
   

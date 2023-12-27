@@ -9,7 +9,7 @@ const  EditTodo = ()=>{
   const idTodo = useParams().id
   const location = useLocation()
 
-  console.log('location',location?.state?.todo);
+  
   
   const [hasData , setHasData] = useState(false)
   const [todoInfo , setTodoInfo] = useState(undefined)
